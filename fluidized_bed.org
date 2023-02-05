@@ -136,14 +136,10 @@ for i j k l
  in $(ls *.sif);
 do
     echo $i:$j
-    ElmerSolver $i &
-    ElmerSolver $j &
-    ElmerSolver $k &
-    ElmerSolver $l 
-    rm $i
-    rm $j
-    rm $k
-    rm $l
+    ElmerSolver $i && rm $i &
+    ElmerSolver $j && rm $j &
+    ElmerSolver $k && rm $k &
+    ElmerSolver $l && rm $l
     echo "*****"
 done
 #+end_src
@@ -170,3 +166,32 @@ for f in $(ls);do
 done
 #+end_src
 
+
+
+* check out if it saves time on restart position
+
+
+ I also rename the post file to keep it from overwriting the previous results.
+
+Simulation
+Max Output Level = 5
+Coordinate System = Cartesian
+Coordinate Mapping(3) = 1 2 3
+Simulation Type = Scanning
+Steady State Max Iterations = 10
+Timestep intervals = 10
+Timestep Sizes = .1
+Output Intervals = 1
+Timestepping Method = BDF
+BDF Order = 1
+Solver Input File = case.sif
+! Post File = case.vtu
+Post File = restartcase.vtu
+
+!! Restart
+!! Output File = run.result
+Binary Output = True
+Restart File = run.result
+Restart Position = 2
+Restart Time = .2
+End
