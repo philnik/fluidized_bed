@@ -95,9 +95,6 @@ End
 !  Velocity 2 = 0.0
 !End
 
-
-
-
 Boundary Condition 3
   Name = "Outlet"
   Target Boundaries = 2
