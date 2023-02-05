@@ -1,10 +1,9 @@
 
 
 
+* Basic functions
 
-
-
-#+begin_src lisp
+#+begin_src lisp :tangle fluidized_bed.lisp
 (ql:quickload "cl-ppcre")
 
 (defun read-file (infile)
@@ -23,8 +22,15 @@
 			     :if-does-not-exist :create
 			     :if-exists action-if-exists)
     (write-sequence string outstream)))
+#+end_src
 
 
+* Export files
+
+
+Each file has different porosity
+
+#+begin_src lisp  :tangle fluidized_bed.lisp
 (defun process_string (string &key (fname "fsi1.sif") (porosity "1.0e4 1.0e4"))
   (setf string1
 	(cl-ppcre:regex-replace-all
@@ -51,29 +57,19 @@
   (write-file readstring  outfile :action-if-exists :overwrite)
   )
 
-(setf infile "/hb/CAE/PorousPipe00/PorousPipe01/Pipe.sif")
-(setf outfile "/hb/CAE/PorousPipe00/PorousPipe01/Pipe01.sif")
-(write_new_sif
- infile
- outfile
- :fname "f000.sif"
- :porosity "1.0e3 1.0e3")
-
-
-(setf *SIF-FOLDER* "/hb/CAE/PorousPipe00/PorousPipe01/sif/")
-
-(defun write-sif-files-to-folder ()
+(defun write-sif-files-to-folder (fname infile sif-folder)
   (loop for i from 0 to 200
 	 do (let ((fname
 		    (concatenate 'string
-				 "fluidized_bed_t"
+				 fname
+				 "_t"
 				 (format nil "~5,'0D" i)
 				 ".vtu"
 				 ))
 		  (outfile
 		    (concatenate 'string
-				 ,*SIF-FOLDER*
-				 "Pipe"
+				 sif-folder
+				 fname
 				 (format nil "~5,'0D" i)
 				 ".sif"
 				 ))
@@ -91,13 +87,24 @@
 	      ))
 )
 
-(write-sif-files-to-folder)
-
 #+end_src
 
-#+RESULTS:
-: NIL
 
+* Call them
+
+#+name call_them
+#+begin_src lisp  :tangle fluidized_bed.lisp
+(load "fluidized_bed.lisp")
+
+(setf infile "/hb/CAE/PorousPipe00/PorousPipe01/Pipe.sif")
+
+(setf SIF-FOLDER "/hb/CAE/PorousPipe00/PorousPipe01/sif/")
+
+(write-sif-files-to-folder "fluidized_bed"
+			   infile
+			   SIF-FOLDER)
+
+#+end_src
 
 
 * run the code
