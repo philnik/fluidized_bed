@@ -30,6 +30,8 @@
 
 Each file has different porosity
 
+
+#+name: write_new_sif
 #+begin_src lisp  :tangle fluidized_bed.lisp
 (defun process_string (string &key (fname "fsi1.sif") (porosity "1.0e4 1.0e4"))
   (setf string1
@@ -109,6 +111,7 @@ Each file has different porosity
 
 * run the code
 
+#$+name: run_sif_files
 #+begin_src shell :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/run-sif-files.sh
 cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/"
 for f in $(ls *.sif);do
@@ -132,8 +135,5 @@ for f in $(ls);do
 	 out=$(echo $f | sed -e 's/_t0001.vtu/\.vtu/g')
 	 mv $f  ./$out
 done
-
-
-
 #+end_src
 
