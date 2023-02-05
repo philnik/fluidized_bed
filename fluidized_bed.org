@@ -111,13 +111,37 @@ Each file has different porosity
 
 * run the code
 
-#$+name: run_sif_files
-#+begin_src shell :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/run-sif-files.sh
+
+** One process each time
+
+#+name: one-sif-file
+#+begin_src shell :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/run-sif-files1.sh
 cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/"
 for f in $(ls *.sif);do
-    ElmerSolver $f
+    ElmerSolver $f 
+    rm $f
 done
 #+end_src
+
+
+** Two sif files each time
+
+#+name: two-sif-files 
+#+begin_src shell :shebang #!/bin/zsh :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/run-sif-files2.sh
+cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/"
+for i j
+ in $(ls *.sif);
+do
+    echo $i:$j
+    ElmerSolver $i &
+    ElmerSolver $j 
+    rm $i
+    rm $j
+    echo "*****"
+done
+#+end_src
+
+
 
 #+RESULTS:
 
