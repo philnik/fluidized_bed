@@ -1,9 +1,3 @@
-
-
-
-* Basic functions
-
-#+begin_src lisp :tangle fluidized_bed.lisp
 (ql:quickload "cl-ppcre")
 
 (defun read-file (infile)
@@ -22,15 +16,7 @@
 			     :if-does-not-exist :create
 			     :if-exists action-if-exists)
     (write-sequence string outstream)))
-#+end_src
 
-
-* Export files
-
-
-Each file has different porosity
-
-#+begin_src lisp  :tangle fluidized_bed.lisp
 (defun process_string (string &key (fname "fsi1.sif") (porosity "1.0e4 1.0e4"))
   (setf string1
 	(cl-ppcre:regex-replace-all
@@ -86,83 +72,3 @@ Each file has different porosity
 	       :porosity porosity )
 	      ))
 )
-
-#+end_src
-
-
-* Call them
-
-#+name call_them
-#+begin_src lisp  
-(load "fluidized_bed.lisp")
-
-(setf infile "/hb/CAE/PorousPipe00/PorousPipe01/Pipe.sif")
-
-(setf SIF-FOLDER "/hb/CAE/PorousPipe00/PorousPipe01/sif/")
-
-(write-sif-files-to-folder "fluidized_bed"
-			   infile
-			   SIF-FOLDER)
-
-#+end_src
-
-
-* run the code
-
-#+begin_src shell :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/run-sif-files.sh
-cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/"
-for f in $(ls *.sif);do
-    ElmerSolver $f
-done
-#+end_src
-
-#+RESULTS:
-
-
-* rename files
-
-Elmer outputs: *t_0001.vtu result file for timestep 1.
-Each timestep corresponds to different porosity, so the t_0001.vtu has to be removed.
-
-
-#+begin_src sh :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/change-names.sh
-cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/"
-
-for f in $(ls);do
-	 out=$(echo $f | sed -e 's/_t0001.vtu/\.vtu/g')
-	 mv $f  ./$out
-done
-
-
-
-#+end_src
-
-#+RESULTS:
-
-
-
-
-#+begin_src sh :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/change-names.sh
-cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/resu"
-ls
-#+end_src
-
-#+RESULTS:
-| 1                  |
-| CMakeFiles         |
-| fluidized_bed.org  |
-| fluidized_bed.org~ |
-| FsiStuff.f90       |
-| FsiStuff.so        |
-| Pipe               |
-| Pipe01.sif         |
-| Pipe01.sif~        |
-| Pipe.grd           |
-| Pipe.grd~          |
-| Pipe.msh           |
-| pipe-resu          |
-| Pipe.sif           |
-| Pipe.sif~          |
-| resu               |
-| sif                |
-| TEST.PASSED        |
