@@ -60,7 +60,7 @@ Each file has different porosity
   )
 
 (defun write-sif-files-to-folder (fname infile sif-folder)
-  (loop for i from 0 to 200
+  (loop for i from 43 to 200
 	 do (let ((fname
 		    (concatenate 'string
 				 fname
@@ -108,6 +108,9 @@ Each file has different porosity
 
 #+end_src
 
+#+RESULTS:
+: NIL
+
 
 * run the code
 
@@ -124,24 +127,30 @@ done
 #+end_src
 
 
-** Two sif files each time
+** More sif files each time
 
 #+name: two-sif-files 
 #+begin_src shell :shebang #!/bin/zsh :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/run-sif-files2.sh
 cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/"
-for i j
+for i j k l
  in $(ls *.sif);
 do
     echo $i:$j
     ElmerSolver $i &
-    ElmerSolver $j 
+    ElmerSolver $j &
+    ElmerSolver $k &
+    ElmerSolver $l 
     rm $i
     rm $j
+    rm $k
+    rm $l
     echo "*****"
 done
 #+end_src
 
+when the first ends, we have to wait for the last to end, otherwise does not move on the loop
 
+It can not be stopped, with ctrl-c
 
 #+RESULTS:
 
