@@ -1,0 +1,108 @@
+
+
+
+
+
+
+#+begin_src lisp
+(ql:quickload "cl-ppcre")
+
+(defun read-file (infile)
+  (with-open-file (instream infile :direction :input :if-does-not-exist nil)
+    (when instream 
+      (let ((string (make-string (file-length instream))))
+        (read-sequence string instream)
+        string))))
+
+(defun write-file (string outfile &key (action-if-exists :error))
+  (check-type action-if-exists (member nil :error :new-version :rename :rename-and-delete 
+					   :overwrite :append :supersede))
+  (with-open-file (outstream outfile
+			     :direction
+			     :output
+			     :if-does-not-exist :create
+			     :if-exists action-if-exists)
+    (write-sequence string outstream)))
+
+
+(defun process_string (string &key (fname "fsi1.sif") (porosity "1.0e4 1.0e4"))
+  (setf string1
+	(cl-ppcre:regex-replace-all
+	 "post_file_variable"
+	 string
+	 fname))
+  (setf string2
+	(cl-ppcre:regex-replace-all
+	 "porosity_variable"
+	 string1
+	 porosity))
+  string2
+  )
+
+(defun write_new_sif (infile outfile
+		      &key (fname  "f10.sif")
+			(porosity "0.5e04 0.5e04")
+			)
+  (setf readstring (process_string
+		    (read-file infile)
+		    :fname fname
+		    :porosity porosity
+		    ))
+  (write-file readstring  outfile :action-if-exists :overwrite)
+  )
+
+(setf infile "/hb/CAE/PorousPipe00/PorousPipe01/Pipe.sif")
+(setf outfile "/hb/CAE/PorousPipe00/PorousPipe01/Pipe01.sif")
+(write_new_sif
+ infile
+ outfile
+ :fname "f000.sif"
+ :porosity "1.0e3 1.0e3")
+
+
+(setf *SIF-FOLDER* "/hb/CAE/PorousPipe00/PorousPipe01/sif/")
+
+(defun write-sif-files-to-folder ()
+  (loop for i from 0 to 200
+	 do (let ((fname
+		    (concatenate 'string
+				 "fluidized_bed_t"
+				 (format nil "~5,'0D" i)
+				 ".vtu"
+				 ))
+		  (outfile
+		    (concatenate 'string
+				 ,*SIF-FOLDER*
+				 "Pipe"
+				 (format nil "~5,'0D" i)
+				 ".sif"
+				 ))
+		  (porosity
+		    (concatenate 'string
+				 (let ((npor (+ 50 (* i 20))))
+				   (format nil "~5,2F ~5,2F" npor npor)
+				   )))
+		  )
+	      (write_new_sif
+	       infile
+	       outfile
+	       :fname fname
+	       :porosity porosity )
+	      ))
+)
+
+#+end_src
+
+#+RESULTS:
+: NIL
+
+
+
+
+#+begin_src shell
+cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/"
+for f in $f;do
+    ElmerSolver $f
+done
+#+end_src
+
