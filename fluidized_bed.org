@@ -119,7 +119,7 @@ done
 #+RESULTS:
 
 
-* rename files
+* rename results
 
 Elmer outputs: *t_0001.vtu result file for timestep 1.
 Each timestep corresponds to different porosity, so the t_0001.vtu has to be removed.
