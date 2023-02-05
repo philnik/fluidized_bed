@@ -79,7 +79,7 @@
 				 ))
 		  (porosity
 		    (concatenate 'string
-				 (let ((npor (+ 50 (* i 20))))
+				 (let ((npor (+ 50 (* i 2))))
 				   (format nil "~5,2F ~5,2F" npor npor)
 				   )))
 		  )
@@ -91,6 +91,8 @@
 	      ))
 )
 
+(write-sif-files-to-folder)
+
 #+end_src
 
 #+RESULTS:
@@ -98,11 +100,62 @@
 
 
 
+* run the code
 
-#+begin_src shell
+#+begin_src shell :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/run-sif-files.sh
 cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/"
-for f in $f;do
+for f in $(ls *.sif);do
     ElmerSolver $f
 done
 #+end_src
 
+#+RESULTS:
+
+
+* clean the fnames
+
+Elmer outputs: *t_0001.vtu result file for timestep 1.
+Each timestep corresponds to different porosity, so the t_0001.vtu has to be removed.
+
+
+#+begin_src sh :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/change-names.sh
+cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/"
+
+for f in $(ls);do
+	 out=$(echo $f | sed -e 's/_t0001.vtu/\.vtu/g')
+	 mv $f  ./$out
+done
+
+
+
+#+end_src
+
+#+RESULTS:
+
+
+
+
+#+begin_src sh :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/change-names.sh
+cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/resu"
+ls
+#+end_src
+
+#+RESULTS:
+| 1                  |
+| CMakeFiles         |
+| fluidized_bed.org  |
+| fluidized_bed.org~ |
+| FsiStuff.f90       |
+| FsiStuff.so        |
+| Pipe               |
+| Pipe01.sif         |
+| Pipe01.sif~        |
+| Pipe.grd           |
+| Pipe.grd~          |
+| Pipe.msh           |
+| pipe-resu          |
+| Pipe.sif           |
+| Pipe.sif~          |
+| resu               |
+| sif                |
+| TEST.PASSED        |
