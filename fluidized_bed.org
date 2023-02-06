@@ -281,10 +281,5 @@ End
 
 
 
-"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/"
 
-for f in $(ls *.vtu);do
-	 out=$(echo $f | sed -e 's/_t0001.vtu/\.vtu/g')
-	 cp $f  ./delme/$out
-done
-#+end_src
+
