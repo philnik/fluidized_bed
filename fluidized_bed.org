@@ -111,7 +111,7 @@ Each file has different porosity
 
 (setf infile "/hb/CAE/PorousPipe00/PorousPipe01/Pipe.sif")
 
-(setf SIF-FOLDER "/hb/CAE/PorousPipe00/PorousPipe01/sif1000/")
+(setf SIF-FOLDER "/hb/CAE/PorousPipe00/PorousPipe01/sif/")
 
 (write-sif-files-to-folder "fluidized_bed"
 			   infile
@@ -178,7 +178,7 @@ cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/"
 
 for f in $(ls *.vtu);do
 	 out=$(echo $f | sed -e 's/_t0001.vtu/\.vtu/g')
-	 cp $f  ./delme/$out
+	 mv $f  ./delme/$out
 done
 #+end_src
 
