@@ -17,6 +17,10 @@
 			     :if-exists action-if-exists)
     (write-sequence string outstream)))
 
+(defun range (min max &optional (step 1))
+  (when (<= min max)
+    (cons min (range (+ min step) max step))))
+
 (defun process_string (string &key (fname "fsi1.sif") (porosity "1.0e4 1.0e4"))
   (setf string1
 	(cl-ppcre:regex-replace-all
@@ -43,8 +47,8 @@
   (write-file readstring  outfile :action-if-exists :overwrite)
   )
 
-(defun write-sif-files-to-folder (fname infile sif-folder)
-  (loop for i from 0 to 200
+(defun write-sif-files-to-folder (fname infile sif-folder values)
+  (loop for i in values
 	 do (let ((fname
 		    (concatenate 'string
 				 fname
@@ -61,7 +65,7 @@
 				 ))
 		  (porosity
 		    (concatenate 'string
-				 (let ((npor (+ 50 (* i 2))))
+				 (let ((npor (+ 2050 (* i 40))))
 				   (format nil "~5,2F ~5,2F" npor npor)
 				   )))
 		  )
