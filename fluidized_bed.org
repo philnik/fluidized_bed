@@ -59,8 +59,8 @@ Each file has different porosity
   (write-file readstring  outfile :action-if-exists :overwrite)
   )
 
-(defun write-sif-files-to-folder (fname infile sif-folder)
-  (loop for i from 43 to 200
+(defun write-sif-files-to-folder (fname infile sif-folder values)
+  (loop for i in values
 	 do (let ((fname
 		    (concatenate 'string
 				 fname
@@ -91,6 +91,9 @@ Each file has different porosity
 
 #+end_src
 
+#+RESULTS: write_new_sif
+: WRITE-SIF-FILES-TO-FOLDER
+
 
 * Call them
 
@@ -104,7 +107,8 @@ Each file has different porosity
 
 (write-sif-files-to-folder "fluidized_bed"
 			   infile
-			   SIF-FOLDER)
+			   SIF-FOLDER
+			   '(201 202 203 204 205))
 
 #+end_src
 
@@ -177,6 +181,7 @@ done
 
  I also rename the post file to keep it from overwriting the previous results.
 
+ #+begin_example
 Simulation
 Max Output Level = 5
 Coordinate System = Cartesian
@@ -199,3 +204,412 @@ Restart File = run.result
 Restart Position = 2
 Restart Time = .2
 End
+#+end_example
+
+
+* work with uiop
+
+#+begin_src lisp
+(ql:quickload "uiop")
+(ql:quickload "cl-ppcre")
+
+(uiop:chdir #P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme")
+
+(mapcar #'(lambda (i)
+	    (list i
+	    (cl-ppcre:scan-to-strings
+	     "[0-9].[0-9][0-9][0-9]" (format nil "~a" i)))
+	    )
+	(uiop:directory-files (uiop:getcwd))
+)
+
+;(mapcar #'(lambda (i) i) (uiop:directory-files (uiop:getcwd)))
+
+;(cl-ppcre:scan-to-strings "0" (format nil "~a" (car (uiop:directory-files (uiop:getcwd)))))
+
+;(cl-ppcre:scan-to-strings "0?1" (format nil "~a" #P"0001"))
+
+#+end_src
+
+#+RESULTS:
+#+begin_example
+((#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00000.vtu"
+  "00000")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00001.vtu"
+  "00001")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00004.vtu"
+  "00004")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00005.vtu"
+  "00005")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00006.vtu"
+  "00006")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00007.vtu"
+  "00007")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00008.vtu"
+  "00008")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00009.vtu"
+  "00009")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00010.vtu"
+  "00010")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00011.vtu"
+  "00011")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00012.vtu"
+  "00012")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00013.vtu"
+  "00013")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00014.vtu"
+  "00014")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00015.vtu"
+  "00015")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00016.vtu"
+  "00016")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00017.vtu"
+  "00017")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00018.vtu"
+  "00018")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00019.vtu"
+  "00019")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00020.vtu"
+  "00020")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00021.vtu"
+  "00021")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00022.vtu"
+  "00022")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00026.vtu"
+  "00026")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00027.vtu"
+  "00027")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00028.vtu"
+  "00028")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00029.vtu"
+  "00029")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00030.vtu"
+  "00030")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00041.vtu"
+  "00041")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00042.vtu"
+  "00042")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00043.vtu"
+  "00043")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00044.vtu"
+  "00044")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00045.vtu"
+  "00045")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00046.vtu"
+  "00046")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00047.vtu"
+  "00047")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00048.vtu"
+  "00048")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00049.vtu"
+  "00049")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00050.vtu"
+  "00050")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00051.vtu"
+  "00051")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00052.vtu"
+  "00052")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00053.vtu"
+  "00053")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00054.vtu"
+  "00054")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00055.vtu"
+  "00055")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00056.vtu"
+  "00056")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00057.vtu"
+  "00057")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00058.vtu"
+  "00058")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00059.vtu"
+  "00059")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00060.vtu"
+  "00060")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00061.vtu"
+  "00061")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00062.vtu"
+  "00062")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00063.vtu"
+  "00063")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00064.vtu"
+  "00064")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00065.vtu"
+  "00065")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00066.vtu"
+  "00066")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00067.vtu"
+  "00067")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00068.vtu"
+  "00068")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00069.vtu"
+  "00069")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00070.vtu"
+  "00070")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00071.vtu"
+  "00071")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00072.vtu"
+  "00072")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00073.vtu"
+  "00073")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00074.vtu"
+  "00074")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00075.vtu"
+  "00075")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00076.vtu"
+  "00076")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00077.vtu"
+  "00077")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00078.vtu"
+  "00078")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00079.vtu"
+  "00079")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00080.vtu"
+  "00080")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00081.vtu"
+  "00081")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00082.vtu"
+  "00082")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00083.vtu"
+  "00083")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00084.vtu"
+  "00084")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00085.vtu"
+  "00085")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00086.vtu"
+  "00086")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00087.vtu"
+  "00087")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00088.vtu"
+  "00088")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00089.vtu"
+  "00089")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00090.vtu"
+  "00090")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00091.vtu"
+  "00091")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00092.vtu"
+  "00092")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00093.vtu"
+  "00093")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00094.vtu"
+  "00094")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00095.vtu"
+  "00095")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00096.vtu"
+  "00096")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00097.vtu"
+  "00097")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00098.vtu"
+  "00098")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00099.vtu"
+  "00099")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00100.vtu"
+  "00100")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00101.vtu"
+  "00101")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00102.vtu"
+  "00102")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00103.vtu"
+  "00103")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00104.vtu"
+  "00104")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00105.vtu"
+  "00105")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00106.vtu"
+  "00106")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00107.vtu"
+  "00107")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00108.vtu"
+  "00108")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00109.vtu"
+  "00109")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00110.vtu"
+  "00110")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00111.vtu"
+  "00111")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00112.vtu"
+  "00112")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00113.vtu"
+  "00113")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00114.vtu"
+  "00114")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00115.vtu"
+  "00115")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00116.vtu"
+  "00116")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00117.vtu"
+  "00117")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00118.vtu"
+  "00118")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00119.vtu"
+  "00119")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00120.vtu"
+  "00120")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00121.vtu"
+  "00121")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00122.vtu"
+  "00122")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00123.vtu"
+  "00123")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00124.vtu"
+  "00124")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00125.vtu"
+  "00125")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00126.vtu"
+  "00126")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00127.vtu"
+  "00127")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00128.vtu"
+  "00128")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00129.vtu"
+  "00129")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00130.vtu"
+  "00130")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00131.vtu"
+  "00131")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00132.vtu"
+  "00132")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00133.vtu"
+  "00133")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00134.vtu"
+  "00134")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00135.vtu"
+  "00135")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00136.vtu"
+  "00136")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00137.vtu"
+  "00137")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00138.vtu"
+  "00138")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00139.vtu"
+  "00139")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00140.vtu"
+  "00140")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00141.vtu"
+  "00141")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00142.vtu"
+  "00142")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00143.vtu"
+  "00143")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00144.vtu"
+  "00144")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00145.vtu"
+  "00145")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00146.vtu"
+  "00146")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00147.vtu"
+  "00147")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00148.vtu"
+  "00148")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00149.vtu"
+  "00149")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00150.vtu"
+  "00150")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00151.vtu"
+  "00151")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00152.vtu"
+  "00152")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00153.vtu"
+  "00153")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00154.vtu"
+  "00154")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00155.vtu"
+  "00155")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00156.vtu"
+  "00156")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00157.vtu"
+  "00157")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00158.vtu"
+  "00158")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00159.vtu"
+  "00159")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00160.vtu"
+  "00160")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00161.vtu"
+  "00161")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00162.vtu"
+  "00162")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00163.vtu"
+  "00163")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00164.vtu"
+  "00164")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00165.vtu"
+  "00165")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00166.vtu"
+  "00166")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00167.vtu"
+  "00167")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00168.vtu"
+  "00168")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00169.vtu"
+  "00169")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00170.vtu"
+  "00170")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00171.vtu"
+  "00171")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00172.vtu"
+  "00172")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00173.vtu"
+  "00173")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00174.vtu"
+  "00174")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00175.vtu"
+  "00175")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00176.vtu"
+  "00176")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00177.vtu"
+  "00177")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00178.vtu"
+  "00178")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00179.vtu"
+  "00179")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00180.vtu"
+  "00180")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00181.vtu"
+  "00181")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00182.vtu"
+  "00182")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00183.vtu"
+  "00183")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00184.vtu"
+  "00184")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00185.vtu"
+  "00185")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00186.vtu"
+  "00186")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00187.vtu"
+  "00187")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00188.vtu"
+  "00188")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00189.vtu"
+  "00189")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00190.vtu"
+  "00190")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00191.vtu"
+  "00191")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00192.vtu"
+  "00192")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00193.vtu"
+  "00193")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00194.vtu"
+  "00194")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00195.vtu"
+  "00195")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00196.vtu"
+  "00196")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00197.vtu"
+  "00197")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/fluidized_bed_t00198.vtu"
+  "00198")
+ (#P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/save-state.pvsm" NIL))
+#+end_example
+
+
+
+"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/"
+
+for f in $(ls *.vtu);do
+	 out=$(echo $f | sed -e 's/_t0001.vtu/\.vtu/g')
+	 cp $f  ./delme/$out
+done
+#+end_src
