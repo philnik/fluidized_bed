@@ -136,10 +136,14 @@ for i j k l
  in $(ls *.sif);
 do
     echo $i:$j
-    ElmerSolver $i && rm $i &
-    ElmerSolver $j && rm $j &
-    ElmerSolver $k && rm $k &
-    ElmerSolver $l && rm $l
+    ElmerSolver $i &
+    ElmerSolver $j &
+    ElmerSolver $k &
+    ElmerSolver $l  
+    rm $i 
+    rm $j
+    rm $k
+    rm $l
     echo "*****"
 done
 #+end_src
@@ -157,12 +161,12 @@ Elmer outputs: *t_0001.vtu result file for timestep 1.
 Each timestep corresponds to different porosity, so the t_0001.vtu has to be removed.
 
 
-#+begin_src sh :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/change-names.sh
-cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme/"
+#+begin_src sh :async :shebang #!/bin/bash  :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/change-names.sh
+cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/"
 
-for f in $(ls);do
+for f in $(ls *.vtu);do
 	 out=$(echo $f | sed -e 's/_t0001.vtu/\.vtu/g')
-	 mv $f  ./$out
+	 cp $f  ./delme/$out
 done
 #+end_src
 
