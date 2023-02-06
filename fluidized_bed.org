@@ -3,6 +3,7 @@
 
 * Basic functions
 
+#+name: basic_functions
 #+begin_src lisp :tangle fluidized_bed.lisp
 (ql:quickload "cl-ppcre")
 
@@ -22,7 +23,14 @@
 			     :if-does-not-exist :create
 			     :if-exists action-if-exists)
     (write-sequence string outstream)))
+
+(defun range (min max &optional (step 1))
+  (when (<= min max)
+    (cons min (range (+ min step) max step))))
 #+end_src
+
+#+RESULTS: basic_functions
+: RANGE
 
 
 * Export files
@@ -108,7 +116,7 @@ Each file has different porosity
 (write-sif-files-to-folder "fluidized_bed"
 			   infile
 			   SIF-FOLDER
-			   '(201 202 203 204 205))
+			   '(199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220))
 
 #+end_src
 
