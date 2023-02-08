@@ -85,7 +85,7 @@ Each file has different porosity
 				 ))
 		  (porosity
 		    (concatenate 'string
-				 (let ((npor (+ 2050 (* i 40))))
+				 (let ((npor (+ 10 (* i 5))))
 				   (format nil "~5,2F ~5,2F" npor npor)
 				   )))
 		  )
@@ -106,8 +106,8 @@ Each file has different porosity
 * Call them
 
 #+name call_them
-#+begin_src lisp  
-(load "fluidized_bed.lisp")
+#+begin_src lisp :tangle fluidized_bed.lisp
+;(load "fluidized_bed.lisp")
 
 (setf infile "/hb/CAE/PorousPipe00/p1/Pipe.sif")
 
@@ -130,7 +130,7 @@ Each file has different porosity
 ** One process each time
 
 #+name: one-sif-file
-#+begin_src shell :async :tangle /hb/CAE/PorousPipe00/p1/sif/run-sif-files1.sh
+#+begin_src shell :async :tangle /hb/CAE/PorousPipe00/p1/run-sif-files1.sh
 cd "/hb/CAE/PorousPipe00/p1/sif/"
 for f in $(ls *.sif);do
     ElmerSolver $f 
@@ -285,6 +285,6 @@ End
 
 ffmpeg -framerate 1 -pattern_type glob -i '*.png' -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
 
-#+begin_src sh :async :shebang #!/bin/bash  :tangle /hb/CAE/PorousPipe00/p1/sif/change-names.sh
+#+begin_src sh :async :shebang #!/bin/bash  :tangle /hb/CAE/PorousPipe00/p1/to_video.sh
 ffmpeg -framerate 10 -pattern_type glob -i '*.png' -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
 #+end_src
