@@ -109,14 +109,14 @@ Each file has different porosity
 #+begin_src lisp  
 (load "fluidized_bed.lisp")
 
-(setf infile "/hb/CAE/PorousPipe00/PorousPipe01/Pipe.sif")
+(setf infile "/hb/CAE/PorousPipe00/p1/Pipe.sif")
 
-(setf SIF-FOLDER "/hb/CAE/PorousPipe00/PorousPipe01/sif/")
+(setf SIF-FOLDER "/hb/CAE/PorousPipe00/p1/sif/")
 
 (write-sif-files-to-folder "fluidized_bed"
 			   infile
 			   SIF-FOLDER
-			   (range 1000 1100))
+			   (range 0 1000))
 
 #+end_src
 
@@ -130,8 +130,8 @@ Each file has different porosity
 ** One process each time
 
 #+name: one-sif-file
-#+begin_src shell :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/run-sif-files1.sh
-cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/"
+#+begin_src shell :async :tangle /hb/CAE/PorousPipe00/p1/sif/run-sif-files1.sh
+cd "/hb/CAE/PorousPipe00/p1/sif/"
 for f in $(ls *.sif);do
     ElmerSolver $f 
     rm $f
@@ -142,8 +142,8 @@ done
 ** More sif files each time
 
 #+name: two-sif-files 
-#+begin_src shell :shebang #!/bin/zsh :async :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/run-sif-files2.sh
-cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/"
+#+begin_src shell :shebang #!/bin/zsh :async :tangle /hb/CAE/PorousPipe00/p1/run-sif-files2.sh
+cd "/hb/CAE/PorousPipe00/p1/sif/"
 for i j k l
  in $(ls *.sif);
 do
@@ -173,8 +173,8 @@ Elmer outputs: *t_0001.vtu result file for timestep 1.
 Each timestep corresponds to different porosity, so the t_0001.vtu has to be removed.
 
 
-#+begin_src sh :async :shebang #!/bin/bash  :tangle /hb/CAE/PorousPipe00/PorousPipe01/sif/change-names.sh
-cd "/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/"
+#+begin_src sh :async :shebang #!/bin/bash  :tangle /hb/CAE/PorousPipe00/p1/change-names.sh
+cd "/hb/CAE/PorousPipe00/p1/sif/resu/"
 
 for f in $(ls *.vtu);do
 	 out=$(echo $f | sed -e 's/_t0001.vtu/\.vtu/g')
@@ -221,7 +221,7 @@ End
 (ql:quickload "uiop")
 (ql:quickload "cl-ppcre")
 
-(uiop:chdir #P"/hb/CAE/PorousPipe00/PorousPipe01/sif/resu/delme")
+(uiop:chdir #P"/hb/CAE/PorousPipe00/p1/sif/resu/delme")
 
 
 (defun parse_filename_string (i)
@@ -283,3 +283,8 @@ End
 
 
 
+ffmpeg -framerate 1 -pattern_type glob -i '*.png' -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
+
+#+begin_src sh :async :shebang #!/bin/bash  :tangle /hb/CAE/PorousPipe00/p1/sif/change-names.sh
+ffmpeg -framerate 10 -pattern_type glob -i '*.png' -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
+#+end_src
