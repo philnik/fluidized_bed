@@ -116,7 +116,7 @@ Each file has different porosity
 (write-sif-files-to-folder "fluidized_bed"
 			   infile
 			   SIF-FOLDER
-			   (range 0 1000))
+			   (range 0 100))
 
 #+end_src
 
